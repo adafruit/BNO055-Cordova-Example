@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.toddtreece.sawcoach" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Hand Saw Coach</name>
+<widget id="com.adafruit.bno055example" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>BNO055 BLE Example</name>
     <description>
-        A 
+      An example BNO055 + Bluetooth LE iOS app
     </description>
     <author email="todd@uniontownlabs.org" href="https://uniontownlabs.org">
       Todd Treece
@@ -16,13 +16,10 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <preference name="KeyboardDisplayRequiresUserAction" value="true" />    
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="orientation" value="portrait" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <platform name="android">
-        <allow-intent href="market:*" />
-    </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
