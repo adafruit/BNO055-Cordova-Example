@@ -3,7 +3,7 @@
 ## General Setup
 
 ```
-git clone git clone git@github.com:adafruit/BNO055-Cordova-Example.git
+git clone git@github.com:adafruit/BNO055-Cordova-Example.git
 ```
 
 ## Arduino Setup
