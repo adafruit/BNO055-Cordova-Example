@@ -21,9 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-var Chart = (function() {
-
-  var proto = Constructor.prototype;
+var Chart = (function(window) {
 
   var Constructor = function(container, threshold, height) {
 
@@ -36,9 +34,9 @@ var Chart = (function() {
 
     // calculate height
     if(this.height.indexOf('%') != -1)
-      this.height = parseInt(window.innerHeight * (parseInt(this.height) / 100));
+      height = parseInt(window.innerHeight * (parseInt(this.height) / 100));
     else
-      this.height = parseInt(this.height);
+      height = parseInt(this.height);
 
     // init container
     this.container = d3.select(container);
@@ -53,7 +51,7 @@ var Chart = (function() {
                    });
 
     // add label
-    this.container.append('<h1><span id="roll"></span>&deg; &nbsp;&nbsp;<span id="yaw"></span>&deg;</h1>')
+    this.container.append('h1').html('<span id="roll"></span>&deg; &nbsp;&nbsp;<span id="yaw"></span>&deg;');
 
     //init yaw line
     this.yaw = this.svg.append('line')
@@ -77,6 +75,8 @@ var Chart = (function() {
 
   };
 
+  var proto = Constructor.prototype;
+
   proto.container = false;
   proto.svg = false;
   proto.yaw = false;
@@ -86,13 +86,19 @@ var Chart = (function() {
 
   proto.update = function(roll, yaw) {
 
+    var height = parseInt(this.height);
+
+    // calculate height
+    if(this.height.indexOf('%') != -1)
+      height = parseInt(window.innerHeight * (parseInt(this.height) / 100));
+
     this.svg.attr({
       'width': '100%',
-      'height': this.height
+      'height': height
     });
 
-    var w = parseInt(app.chart.svg.style('width'), 10),
-        h = parseInt(app.chart.svg.style('height'), 10),
+    var w = parseInt(this.svg.style('width'), 10),
+        h = parseInt(this.svg.style('height'), 10),
         yawdiv = d3.select('#yaw'),
         rolldiv = d3.select('#roll');
 
@@ -111,8 +117,8 @@ var Chart = (function() {
     }
 
     if(Math.abs(roll) >= this.threshold) {
-      rolldiv.style({'color': 'red'});
-      this.roll.attr('stroke', 'red');
+      rolldiv.style({'color': 'blue'});
+      this.roll.attr('stroke', 'blue');
     } else {
       rolldiv.style({'color': 'black'});
       this.roll.attr('stroke', 'black');
@@ -126,5 +132,5 @@ var Chart = (function() {
 
   return Constructor;
 
-})();
+})(window);
 

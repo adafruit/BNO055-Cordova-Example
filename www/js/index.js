@@ -1,27 +1,24 @@
-var BNO055 = (function() {
+var BNO = (function() {
 
-  var proto = Constructor.prototype;
-
-  var Constructor = function() {
+  var Constructor = function(name) {
 
     if (! (this instanceof Constructor))
       return new Constructor();
 
-    d3.select(document).on('deviceready', this.reset.bind(this));
+    this.name = name || 'BNOIOS';
+    document.addEventListener('deviceready', this.ready.bind(this), false);
     d3.select('#disconnect').on('touchend', this.disconnect.bind(this));
+    d3.select('#connect').on('touchend', this.reset.bind(this));
     d3.select('#offset').on('touchend', this.saveOffset.bind(this));
-
-    this.roll = Reading();
-    this.yaw = Reading();
-    this.beep = {
-      roll: Beep(800, 1),
-      yaw: Beep(533, 1)
-    };
-    this.chart = Chart('#chart', 1);
+    d3.select('#connect').style('display', 'none');
 
   };
 
+  var proto = Constructor.prototype;
+
+  proto.name = 'BNOIOS';
   proto.connected = false;
+  proto.calibrated = false;
   proto.roll = false;
   proto.yaw = false;
   proto.chart = false;
@@ -30,6 +27,20 @@ var BNO055 = (function() {
     yaw: false
   };
 
+  proto.ready = function() {
+
+    this.roll = Reading();
+    this.yaw = Reading();
+    this.chart = Chart('#chart', 1);
+    this.beep = {
+      roll: Beep(800, 1),
+      yaw: Beep(533, 1)
+    };
+
+    this.reset();
+
+  }
+
   proto.status = function(text) {
     d3.select('#status').html(text);
   };
@@ -37,6 +48,9 @@ var BNO055 = (function() {
   proto.update = function() {
 
     this.chart.update(this.roll.value(), this.yaw.value());
+
+    if(! this.calibrated)
+      return;
 
     this.beep.roll.update(this.roll.value());
     this.beep.yaw.update(this.yaw.value());
@@ -55,11 +69,15 @@ var BNO055 = (function() {
 
     window.plugins.insomnia.keepAwake();
     navigator.splashscreen.show();
+    d3.select('#connect').style('display', 'none');
+    d3.select('#disconnect').style('display', 'initial');
+
     this.connected = false;
+    this.calibrated = false;
 
     bluetoothSerial.isEnabled(this.findDevices.bind(this), function() {
       navigator.splashscreen.hide();
-      app.status('Bluetooth is currently turned off. :(');
+      this.status('Bluetooth is currently turned off. :(');
     });
 
   };
@@ -80,7 +98,7 @@ var BNO055 = (function() {
         this.status
       );
 
-    }, 10000);
+    }.bind(this), 10000);
 
   };
 
@@ -139,12 +157,14 @@ var BNO055 = (function() {
   proto.onDisconnect = function() {
 
     this.status('Connection closed.');
-    setTimeout(this.reset.bind(this), 1000);
+    d3.select('#connect').style('display', 'initial');
+    d3.select('#disconnect').style('display', 'none');
 
   };
 
   proto.saveOffset = function() {
 
+    this.calibrated = true;
     this.yaw.saveOffset();
     this.roll.saveOffset();
 
@@ -154,10 +174,7 @@ var BNO055 = (function() {
 
     data = data.split(',');
 
-    if(!Array.isArray(data) || data.length != 2)
-      return;
-
-    this.yaw.update(data[0]));
+    this.yaw.update(data[0]);
     this.roll.update(parseFloat(data[1]) + 180);
 
     this.update();

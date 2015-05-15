@@ -21,9 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-var Beeper = (function() {
-
-  var proto = Constructor.prototype;
+var Beep = (function() {
 
   var Constructor = function(frequency, threshold) {
 
@@ -50,9 +48,11 @@ var Beeper = (function() {
     this.vco.connect(this.vca);
 
     // connect vca to context
-    this.vca.connect(this.context);
+    this.vca.connect(this.context.destination);
 
   };
+
+  var proto = Constructor.prototype;
 
   proto.context = false;
   proto.vco = false;
@@ -82,7 +82,7 @@ var Beeper = (function() {
   proto.reset = function() {
 
     // clear timer
-    if(timer) {
+    if(this.timer) {
       clearInterval(this.timer);
       this.timer = false;
     }

@@ -23,14 +23,14 @@
 //
 var Reading = (function() {
 
-  var proto = Constructor.prototype;
-
   var Constructor = function() {
 
     if (! (this instanceof Constructor))
       return new Constructor();
 
   };
+
+  var proto = Constructor.prototype;
 
   proto.last = 0;
   proto.offset = false;

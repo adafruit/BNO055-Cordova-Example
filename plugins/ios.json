@@ -37,6 +37,10 @@
                         {
                             "xml": "<feature name=\"Insomnia\"><param name=\"ios-package\" value=\"Insomnia\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -45,16 +49,19 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.toddtreece.sawcoach"
+            "PACKAGE_NAME": "com.adafruit.bno055example"
         },
         "com.megster.cordova.bluetoothserial": {
-            "PACKAGE_NAME": "com.toddtreece.sawcoach"
+            "PACKAGE_NAME": "com.adafruit.bno055example"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.toddtreece.sawcoach"
+            "PACKAGE_NAME": "com.adafruit.bno055example"
         },
         "nl.x-services.plugins.insomnia": {
-            "PACKAGE_NAME": "com.toddtreece.sawcoach"
+            "PACKAGE_NAME": "com.adafruit.bno055example"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.adafruit.bno055example"
         }
     },
     "dependent_plugins": {}

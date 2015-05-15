@@ -1,5 +1,8 @@
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+        -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
 }
 
 body {
@@ -14,6 +17,7 @@ body {
     padding:40px 0 0 0;
     text-transform:uppercase;
     width:100%;
+    text-align: center;
 }
 
 #status {
@@ -30,7 +34,9 @@ body {
 }
 
 #chart svg {
-  border: 2px solid #000;
+  border: 4px solid #000;
+  width:98%;
+  margin 0 auto;
 }
 
 #chart h1 {
@@ -63,7 +69,7 @@ button {
   text-decoration: none;
 }
 
-button:hover {
+button:active {
   background: #3cb0fd;
   background-image: -webkit-linear-gradient(top, #3cb0fd, #5895b8);
   background-image: -moz-linear-gradient(top, #3cb0fd, #5895b8);
