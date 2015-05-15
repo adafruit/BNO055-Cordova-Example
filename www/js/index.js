@@ -4,10 +4,14 @@ var app = {
 
     this.bindEvents();
     chartDiv.hidden = true;
+    devices.hidden = true;
 
     this.audioInit();
+    this.chartInit();
 
   },
+
+  init: false,
 
   last: {
     dir: 0,
@@ -29,6 +33,43 @@ var app = {
       tilt: false,
       dir: false
     }
+  },
+
+  chart: {
+    svg: false,
+    tilt: false,
+    dir: false
+  },
+
+  chartInit: function() {
+
+     app.chart.svg = d3.select("#chrt")
+             .append("svg")
+             .attr("id", "chartdisplay")
+             .attr({
+               "width": '100%',
+               "height": window.innerHeight/1.5
+             });
+
+     app.chart.dir = app.chart.svg.append("line")
+              .attr("x1", "50%")
+              .attr("y1", "-200%")
+              .attr("x2", "50%")
+              .attr("y2", "200%")
+              .attr("stroke", "black")
+              .attr("stroke-width", 4)
+              .attr("fill", "none");
+
+     app.chart.tilt = app.chart.svg.append("line")
+              .attr("x1", "-200%")
+              .attr("y1", "50%")
+              .attr("x2", "200%")
+              .attr("y2", "50%")
+              .attr("stroke", "black")
+              .attr("stroke-width", 4)
+              .attr("fill", "none");
+
+
   },
 
   audioInit: function() {
@@ -80,6 +121,13 @@ var app = {
     d3.select('#tiltDisplay').html(app.corrected.tilt.toFixed(2));
     d3.select('#dirDisplay').html(app.corrected.dir.toFixed(2));
 
+    app.updateAudio();
+    app.updateChart();
+
+  },
+
+  updateAudio: function() {
+
     clearInterval(app.timers.audio.tilt);
     clearInterval(app.timers.audio.dir);
 
@@ -108,9 +156,57 @@ var app = {
 
   },
 
+  updateChart: function() {
+
+    app.chart.svg.attr({
+      "width": '100%',
+      "height": window.innerHeight/1.5
+    });
+
+    var w = parseInt(app.chart.svg.style("width"), 10),
+        h = parseInt(app.chart.svg.style("height"), 10);
+
+    app.chart.tilt.attr("transform", "rotate(" + parseInt(app.corrected.tilt) + ","+ (w/2) + "," +(h/2) +")");
+    app.chart.dir.attr("transform", "rotate(" + parseInt(app.corrected.dir) + ","+ (w/2) + "," +(h/2) +")");
+
+    if(Math.abs(app.corrected.dir) >= 1) {
+      d3.select('#dirDisplay').style({'color': 'red'});
+      app.chart.dir.attr("stroke", "red");
+    } else {
+      d3.select('#dirDisplay').style({'color': 'black'});
+      app.chart.dir.attr("stroke", "black");
+    }
+
+    if(Math.abs(app.corrected.tilt) >= 1) {
+      d3.select('#tiltDisplay').style({'color': 'blue'});
+      app.chart.tilt.attr("stroke", "blue");
+    } else {
+      d3.select('#tiltDisplay').style({'color': 'black'});
+      app.chart.tilt.attr("stroke", "black");
+    }
+
+  },
+
   ready: function() {
 
+    window.plugins.insomnia.keepAwake();
+
     d3.select('#devices ul').html('');
+
+    app.last = {
+      dir: 0,
+      tilt: 0
+    };
+
+    app.offsets = {
+      tilt: false,
+      dir: false
+    };
+
+    app.corrected = {
+      tilt: false,
+      dir: false
+    };
 
     devices.hidden = false;
     chartDiv.hidden = true;
@@ -151,8 +247,19 @@ var app = {
 
   displayList: function(results) {
 
-    if(results.length)
+    if(results.length) {
+
       app.status('');
+
+      results.forEach(function(r) {
+
+        if(! app.init && r.name == 'Hand Saw Coach') {
+          app.connect(r);
+        }
+
+      });
+
+    }
 
     d3.select('#devices ul')
       .selectAll('li')
@@ -197,6 +304,10 @@ var app = {
 
     setTimeout(function() {
       chartDiv.hidden = false;
+      if(! app.init) {
+        navigator.splashscreen.hide();
+        app.init = true;
+      }
     }, 1000);
 
     bluetoothSerial.subscribe('\n', app.processData);

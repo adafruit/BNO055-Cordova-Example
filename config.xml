@@ -19,6 +19,7 @@
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />    
     <preference name="UIWebViewBounce" value="false" />
     <preference name="orientation" value="portrait" />
+    <preference name="AutoHideSplashScreen" value="false" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
