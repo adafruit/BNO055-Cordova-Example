@@ -2,36 +2,27 @@
 <html>
 
     <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta name="format-detection" content="telephone=no">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hand Saw Coach</title>
+        <title>BNO055 Example</title>
     </head>
 
     <body>
 
-        <div class="app">
+      <div id="chart"></div>
+      <button id="offset">Set Offset</button>
+      <button id="disconnect">Disconnect</button>
 
-          <div id="status"></div>
+      <div id="status"></div>
 
-          <div id="devices">
-            <ul></ul>
-          </div>
-
-          <div id="chartDiv">
-            <div id="chrt"></div>
-            <h1><span id="tiltDisplay"></span>&deg; &nbsp;&nbsp; <span id="dirDisplay"></span>&deg;</h1>
-            <button id="offsetButton">Set Offset</button>
-            <button id="disconnectButton">Disconnect</button>
-          </div>
-
-        </div>
-
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/d3.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="js/d3.js"></script>
+      <script type="text/javascript" src="js/audio.js"></script>
+      <script type="text/javascript" src="js/chart.js"></script>
+      <script type="text/javascript" src="js/reading.js"></script>
+      <script type="text/javascript" src="js/index.js"></script>
 
     </body>
+
 </html>

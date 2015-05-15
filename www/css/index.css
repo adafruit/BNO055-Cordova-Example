@@ -11,13 +11,36 @@ body {
     font-size:12px;
     height:100%;
     margin:0px;
-    padding:0px;
+    padding:40px 0 0 0;
     text-transform:uppercase;
     width:100%;
 }
 
-.app {
-  margin-top: 40px;
+#status {
+  text-align: center;
+  font-weight: bold;
+  position: fixed;
+  width: 100%;
+  bottom: 10px;
+  font-size: 1.2em;
+}
+
+#chart {
+  text-align: center;
+}
+
+#chart svg {
+  border: 2px solid #000;
+}
+
+#chart h1 {
+  padding-left: 5px;
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+  padding-top: 2px;
+  margin-top: 2px;
+  font-size: 40px;
+  text-align: center;
 }
 
 button {
@@ -49,40 +72,3 @@ button:hover {
   background-image: linear-gradient(to bottom, #3cb0fd, #5895b8);
   text-decoration: none;
 }
-
-ul li {
-  border-top: 1px solid black;
-  list-style-type: none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 5px;
-  font-size: 3em;
-  font-weight: bold;
-}
-
-ul > li:last-child {
-  border-bottom: 1px solid black;
-}
-
-ul {
-  margin: 0px;
-  padding: 0px;
-  padding-bottom: 30px;
-  text-align: left;
-}
-#status {
-  text-align: center;
-  font-weight: bold;
-  position: fixed;
-  width: 100%;
-  bottom: 10px;
-  font-size: 1.2em;
-}
-
-#chartDiv {
-  text-align: center;
-}
-
-h1 { padding-left: 5px; padding-bottom: 2px; margin-bottom: 10px; padding-top: 2px; margin-top: 2px;  font-size: 40px; text-align: center; }
-
-#chrt svg { border: 2px solid #000; }
