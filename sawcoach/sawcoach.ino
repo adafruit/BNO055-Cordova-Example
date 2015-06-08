@@ -44,9 +44,9 @@ void setup() {
   ble.echo(false);
 
   Serial.print(F("Set device name: "));
-  if(! ble.sendCommandCheckOK(F("AT+GAPDEVNAME=BNOIOS"))) {
+  if(! ble.sendCommandCheckOK(F("AT+GAPDEVNAME=Hand Saw Coach"))) {
     Serial.println(F("FAILED."));
-    while(1);  
+    while(1);
   }
   
   Serial.println( F("OK!") );
