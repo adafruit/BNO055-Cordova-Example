@@ -22,6 +22,7 @@ var BNO = (function() {
   proto.roll = false;
   proto.yaw = false;
   proto.chart = false;
+  proto.low_battery = false;
   proto.beep = {
     roll: false,
     yaw: false
@@ -150,7 +151,7 @@ var BNO = (function() {
     navigator.splashscreen.hide();
 
     // listen for data
-    bluetoothSerial.subscribe('\n', this.processData.bind(this));
+    bluetoothSerial.subscribe('|', this.processData.bind(this));
 
   };
 
@@ -172,10 +173,17 @@ var BNO = (function() {
 
   proto.processData = function(data) {
 
+    past_low = this.low_battery;
+    console.log(data);
+
     data = data.split(',');
 
     this.yaw.update(data[0]);
-    this.roll.update(parseFloat(data[1]) + 180);
+    this.roll.update(parseFloat(data[2]) + 180);
+    this.low_battery = parseInt(data[3]) < 3300 ? true : false;
+
+    if(this.low_battery && !past_low)
+      navigator.notification.alert('The Bluefruit\'s battery is low', null, 'Warning');
 
     this.update();
 
