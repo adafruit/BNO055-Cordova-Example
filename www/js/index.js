@@ -58,23 +58,25 @@ var BNO = (function() {
 
   };
 
-  proto.reset = function() {
-
-    this.status('');
+  proto.reset = function(no_reconnect) {
 
     this.roll.reset();
     this.yaw.reset();
     this.chart.reset();
     this.beep.roll.reset();
     this.beep.yaw.reset();
+    this.connected = false;
+    this.calibrated = false;
 
-    window.plugins.insomnia.keepAwake();
-    navigator.splashscreen.show();
+    if(no_reconnect)
+      return;
+
+    this.status('');
     d3.select('#connect').style('display', 'none');
     d3.select('#disconnect').style('display', 'initial');
 
-    this.connected = false;
-    this.calibrated = false;
+    window.plugins.insomnia.keepAwake();
+    navigator.splashscreen.show();
 
     bluetoothSerial.isEnabled(this.findDevices.bind(this), function() {
       navigator.splashscreen.hide();
@@ -160,6 +162,7 @@ var BNO = (function() {
     this.status('Connection closed.');
     d3.select('#connect').style('display', 'initial');
     d3.select('#disconnect').style('display', 'none');
+    this.reset(true);
 
   };
 
