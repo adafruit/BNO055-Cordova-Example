@@ -3,7 +3,7 @@ var BNO = (function() {
   var Constructor = function(name) {
 
     if (! (this instanceof Constructor))
-      return new Constructor();
+      return new Constructor(name);
 
     this.name = name || 'BNOIOS';
     document.addEventListener('deviceready', this.ready.bind(this), false);
