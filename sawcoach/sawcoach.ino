@@ -80,9 +80,9 @@ void loop() {
   sensors_event_t event; 
   bno.getEvent(&event);
   
-  ble.print(event.orientation.x, 4);
+  ble.print(event.orientation.x, 1);
   ble.print(",");
-  ble.println(event.orientation.z, 4);
+  ble.println(event.orientation.z, 1);
   
   delay(200);
 

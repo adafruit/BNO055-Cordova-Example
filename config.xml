@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.adafruit.bno055example" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>BNO055 BLE Example</name>
+<widget id="com.toddtreece.sawcoach" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Saw Coach</name>
     <description>
       An example BNO055 + Bluetooth LE iOS app
     </description>
