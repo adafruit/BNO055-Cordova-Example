@@ -22,6 +22,7 @@ var BNO = (function() {
   proto.roll = false;
   proto.yaw = false;
   proto.chart = false;
+  proto.low_battery = false;
   proto.beep = {
     roll: false,
     yaw: false
@@ -57,23 +58,25 @@ var BNO = (function() {
 
   };
 
-  proto.reset = function() {
-
-    this.status('');
+  proto.reset = function(no_reconnect) {
 
     this.roll.reset();
     this.yaw.reset();
     this.chart.reset();
     this.beep.roll.reset();
     this.beep.yaw.reset();
+    this.connected = false;
+    this.calibrated = false;
 
-    window.plugins.insomnia.keepAwake();
-    navigator.splashscreen.show();
+    if(no_reconnect)
+      return;
+
+    this.status('');
     d3.select('#connect').style('display', 'none');
     d3.select('#disconnect').style('display', 'initial');
 
-    this.connected = false;
-    this.calibrated = false;
+    window.plugins.insomnia.keepAwake();
+    navigator.splashscreen.show();
 
     bluetoothSerial.isEnabled(this.findDevices.bind(this), function() {
       navigator.splashscreen.hide();
@@ -150,7 +153,7 @@ var BNO = (function() {
     navigator.splashscreen.hide();
 
     // listen for data
-    bluetoothSerial.subscribe('\n', this.processData.bind(this));
+    bluetoothSerial.subscribe('|', this.processData.bind(this));
 
   };
 
@@ -159,6 +162,7 @@ var BNO = (function() {
     this.status('Connection closed.');
     d3.select('#connect').style('display', 'initial');
     d3.select('#disconnect').style('display', 'none');
+    this.reset(true);
 
   };
 
@@ -172,10 +176,17 @@ var BNO = (function() {
 
   proto.processData = function(data) {
 
+    past_low = this.low_battery;
+    console.log(data);
+
     data = data.split(',');
 
     this.yaw.update(data[0]);
-    this.roll.update(parseFloat(data[1]) + 180);
+    this.roll.update(parseFloat(data[2]) + 180);
+    this.low_battery = parseInt(data[3]) < 3300 ? true : false;
+
+    if(this.low_battery && !past_low)
+      navigator.notification.alert('The Bluefruit\'s battery is low', null, 'Warning');
 
     this.update();
 

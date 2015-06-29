@@ -14,31 +14,33 @@
 #define MODE -1
 
 #define BUFSIZE 128
-#define VERBOSE_MODE true
+#define VERBOSE_MODE false
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 SoftwareSerial bluefruitSS = SoftwareSerial(TX, RX);
 Adafruit_BluefruitLE_UART ble(bluefruitSS, MODE, CTS, RTS);
 
+int count = 0;
+
 void setup() {
-  
+
   Serial.begin(115200);
   Serial.println(F("BLE Starting"));
-  
+
   delay(5000);
 
   if (! ble.begin(VERBOSE_MODE)) {
     Serial.println( F("FAILED!") );
     while(1);
   }
-  
+
   Serial.println( F("OK!") );
-  
+
   Serial.print(F("Factory reset: "));
   if(! ble.factoryReset()) {
     Serial.println(F("FAILED."));
     while(1);
   }
-  
+
   Serial.println( F("OK!") );
 
   ble.echo(false);
@@ -48,42 +50,39 @@ void setup() {
     Serial.println(F("FAILED."));
     while(1);
   }
-  
-  Serial.println( F("OK!") );
-  
+
+  Serial.println(F("OK!"));
+
   ble.reset();
-  
+
   Serial.print(F("BNO055 init: "));
   if(! bno.begin()) {
     Serial.println(F("FAILED."));
     while(1);
   }
-   
+
   Serial.println(F("OK!"));
 
   bno.setExtCrystalUse(true);
-  
-  while (! ble.isConnected()) {
+
+  while (! ble.isConnected())
     delay(500);
-  }
-  
+
   Serial.println(F("Connected"));
-  
-  ble.println("+++");
-  delay(100);
-  ble.waitForOK();
-  
+
+  batteryLevel();
+
 }
 
 void loop() {
 
-  sensors_event_t event; 
+  sensors_event_t event;
   bno.getEvent(&event);
-  
+
   ble.print(event.orientation.x, 1);
   ble.print(",");
   ble.println(event.orientation.z, 1);
-  
+
   delay(200);
 
 }

@@ -36,7 +36,7 @@ body {
 #chart svg {
   border: 4px solid #000;
   width:98%;
-  margin 0 auto;
+  margin: 0 auto;
 }
 
 #chart h1 {
