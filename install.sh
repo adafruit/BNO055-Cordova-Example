@@ -11,7 +11,7 @@ fi
 echo "----------------------------------------"
 echo "INSTALLING THE LATEST VERSION OF CORDOVA"
 echo "----------------------------------------"
-npm install -g cordova
+npm install -g cordova ios-sim
 
 echo "--------------------------"
 echo "INSTALLING CORDOVA PLUGINS"
