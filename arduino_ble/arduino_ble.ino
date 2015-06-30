@@ -7,16 +7,16 @@
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
 
-#define RTS  11
-#define RX    6
-#define TX   10
-#define CTS   9
+#define RTS  10
+#define RXI  11
+#define TXO  12
+#define CTS  13
 #define MODE -1
 
 #define BUFSIZE 128
 #define VERBOSE_MODE false
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
-SoftwareSerial bluefruitSS = SoftwareSerial(TX, RX);
+SoftwareSerial bluefruitSS = SoftwareSerial(TXO, RXI);
 Adafruit_BluefruitLE_UART ble(bluefruitSS, MODE, CTS, RTS);
 
 int battery = 0;
